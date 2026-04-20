@@ -2,15 +2,19 @@
 <html lang="en">
 <head>
     <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Background Studio</title>
     <link rel="stylesheet" href="css\style.css">
 </head>
 <body>
 
+<!-- Animated Canvas -->
+<canvas id="bgCanvas"></canvas>
+
 <div class="wrapper">
     <div class="container">
         <h1>Background Studio</h1>
-        <p>Create your perfect background</p>
+        <p>Create your animated background</p>
 
         <div class="buttons">
             <button onclick="setRandomGradient()">Gradient</button>
@@ -31,7 +35,7 @@
         </div>
 
         <div class="footer">
-            <button onclick="toggleTheme()">🌙</button>
+            <button onclick="toggleTheme()">🌙 Theme</button>
             <button onclick="resetBg()">Reset</button>
         </div>
     </div>

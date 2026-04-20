@@ -1,46 +1,78 @@
+const canvas = document.getElementById("bgCanvas");
+const ctx = canvas.getContext("2d");
+
+canvas.width = window.innerWidth;
+canvas.height = window.innerHeight;
+
+let stars = [];
 let autoInterval = null;
 
-// Apply background helper (IMPORTANT FIX)
-function applyBackground(bg) {
-    document.body.style.background = bg;
-    document.body.style.backgroundSize = "cover";
-    document.body.style.backgroundPosition = "center";
-    document.body.style.backgroundRepeat = "no-repeat";
+// Create stars
+for (let i = 0; i < 120; i++) {
+    stars.push({
+        x: Math.random() * canvas.width,
+        y: Math.random() * canvas.height,
+        size: Math.random() * 2,
+        speed: Math.random() * 1 + 0.2
+    });
 }
 
-// Gradient
+// Animate stars
+function animateStars() {
+    ctx.clearRect(0, 0, canvas.width, canvas.height);
+
+    ctx.fillStyle = "white";
+
+    stars.forEach(star => {
+        ctx.beginPath();
+        ctx.arc(star.x, star.y, star.size, 0, Math.PI * 2);
+        ctx.fill();
+
+        star.y += star.speed;
+
+        if (star.y > canvas.height) {
+            star.y = 0;
+            star.x = Math.random() * canvas.width;
+        }
+    });
+
+    requestAnimationFrame(animateStars);
+}
+
+animateStars();
+
+// Resize canvas
+window.addEventListener("resize", () => {
+    canvas.width = window.innerWidth;
+    canvas.height = window.innerHeight;
+});
+
+// Gradient animation
 function setRandomGradient() {
-    const gradients = [
-        ["#ff7e5f", "#feb47b"],
-        ["#6a11cb", "#2575fc"],
-        ["#00c6ff", "#0072ff"],
-        ["#ff9966", "#ff5e62"],
-        ["#56ab2f", "#a8e063"]
-    ];
-
-    const g = gradients[Math.floor(Math.random() * gradients.length)];
-    applyBackground(`linear-gradient(135deg, ${g[0]}, ${g[1]})`);
+    document.body.classList.add("gradient-animate");
 }
 
-// Image
-function setImage() {
-    const url = "https://picsum.photos/1600/900?random=" + Date.now();
-    applyBackground(`url(${url})`);
-}
-
-// Custom Color
+// Custom color
 function setCustomColor(color) {
-    applyBackground(color);
+    document.body.classList.remove("gradient-animate");
+    document.body.style.background = color;
 }
 
-// Upload Image
+// Random image
+function setImage() {
+    document.body.classList.remove("gradient-animate");
+    const url = "https://picsum.photos/1600/900?random=" + Date.now();
+    document.body.style.background = `url(${url}) center/cover no-repeat`;
+}
+
+// Upload image
 function uploadImage(event) {
     const file = event.target.files[0];
     if (!file) return;
 
     const reader = new FileReader();
     reader.onload = function(e) {
-        applyBackground(`url(${e.target.result})`);
+        document.body.style.background = `url(${e.target.result}) center/cover no-repeat`;
     };
     reader.readAsDataURL(file);
 }
@@ -48,32 +80,33 @@ function uploadImage(event) {
 // Save
 function saveBg() {
     localStorage.setItem("bg", document.body.style.background);
-    alert("Saved!");
+    alert("Background Saved!");
 }
 
-// Load
+// Load saved
 window.onload = function () {
     const saved = localStorage.getItem("bg");
-    if (saved) applyBackground(saved);
+    if (saved) document.body.style.background = saved;
 };
 
 // Reset
 function resetBg() {
-    applyBackground("linear-gradient(135deg, #667eea, #764ba2)");
+    document.body.classList.remove("gradient-animate");
+    document.body.style.background = "black";
     localStorage.removeItem("bg");
 }
 
-// Auto Mode
+// Auto mode
 function startAuto() {
     stopAuto();
-    autoInterval = setInterval(setRandomGradient, 2000);
+    autoInterval = setInterval(setRandomGradient, 4000);
 }
 
 function stopAuto() {
     clearInterval(autoInterval);
 }
 
-// Theme
+// Theme toggle
 function toggleTheme() {
     document.body.classList.toggle("dark");
 }
