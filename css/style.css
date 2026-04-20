@@ -2,7 +2,7 @@
     margin: 0;
     padding: 0;
     box-sizing: border-box;
-    font-family: 'Segoe UI', sans-serif;
+    font-family: "Inter", "Segoe UI", sans-serif;
 }
 
 body {
@@ -10,78 +10,132 @@ body {
     display: flex;
     justify-content: center;
     align-items: center;
-    transition: all 0.8s ease;
     background: linear-gradient(135deg, #667eea, #764ba2);
+    transition: 0.8s ease;
+}
+
+/* Center Wrapper */
+.wrapper {
+    width: 100%;
+    display: flex;
+    justify-content: center;
 }
 
 /* Glass Card */
 .container {
+    width: 380px;
+    padding: 35px;
+    border-radius: 28px;
+    backdrop-filter: blur(25px);
+    background: rgba(255, 255, 255, 0.08);
+    box-shadow:
+        0 20px 60px rgba(0,0,0,0.4),
+        inset 0 0 0.5px rgba(255,255,255,0.3);
     text-align: center;
-    padding: 45px;
-    border-radius: 25px;
-    backdrop-filter: blur(20px);
-    background: rgba(255, 255, 255, 0.12);
-    box-shadow: 0 15px 40px rgba(0,0,0,0.3);
     color: white;
-    width: 350px;
+    animation: fadeIn 0.8s ease;
 }
 
 /* Title */
 h1 {
-    margin-bottom: 10px;
-    font-size: 2rem;
+    font-size: 1.9rem;
+    margin-bottom: 8px;
+    letter-spacing: 0.5px;
 }
 
 p {
-    margin-bottom: 20px;
-    opacity: 0.8;
+    font-size: 14px;
+    opacity: 0.75;
+    margin-bottom: 25px;
+}
+
+/* Button Groups */
+.buttons, .controls {
+    display: grid;
+    grid-template-columns: repeat(2, 1fr);
+    gap: 12px;
+    margin-bottom: 18px;
 }
 
 /* Buttons */
-.buttons, .extras {
-    display: flex;
-    flex-wrap: wrap;
-    gap: 10px;
-    justify-content: center;
-}
-
 button {
-    padding: 10px 15px;
+    padding: 12px;
+    border-radius: 14px;
     border: none;
-    border-radius: 25px;
-    cursor: pointer;
     font-size: 13px;
-    background: rgba(255,255,255,0.2);
+    cursor: pointer;
     color: white;
-    transition: 0.3s;
+    background: rgba(255,255,255,0.15);
+    backdrop-filter: blur(10px);
+    transition: all 0.25s ease;
 }
 
+/* Hover Effects */
 button:hover {
-    background: rgba(255,255,255,0.4);
+    background: rgba(255,255,255,0.3);
     transform: translateY(-3px);
+    box-shadow: 0 8px 20px rgba(0,0,0,0.3);
+}
+
+/* Active */
+button:active {
+    transform: scale(0.95);
 }
 
 /* Color Picker */
 input[type="color"] {
-    width: 40px;
-    height: 40px;
+    width: 100%;
+    height: 45px;
+    border-radius: 12px;
     border: none;
     cursor: pointer;
 }
 
-/* Upload Button */
+/* Upload */
 .upload {
-    background: rgba(255,255,255,0.2);
-    padding: 10px;
-    border-radius: 25px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    background: rgba(255,255,255,0.15);
+    border-radius: 14px;
     cursor: pointer;
+    font-size: 13px;
 }
 
 .upload input {
     display: none;
 }
 
+/* Save Button Highlight */
+.save {
+    grid-column: span 2;
+    background: linear-gradient(135deg, #00c6ff, #0072ff);
+}
+
+/* Footer */
+.footer {
+    display: flex;
+    justify-content: space-between;
+    margin-top: 10px;
+}
+
+.footer button {
+    width: 48%;
+}
+
 /* Dark Mode */
 .dark {
-    background: #121212 !important;
+    background: #0f0f0f !important;
+}
+
+/* Animation */
+@keyframes fadeIn {
+    from {
+        opacity: 0;
+        transform: translateY(20px);
+    }
+    to {
+        opacity: 1;
+        transform: translateY(0);
+    }
 }
