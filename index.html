@@ -2,22 +2,31 @@
 <html lang="en">
 <head>
     <meta charset="UTF-8">
-    <title>Background Changer</title>
+    <title>Background Studio</title>
     <link rel="stylesheet" href="css\style.css">
 </head>
 <body>
 
 <div class="container">
-    <h1>Background Studio</h1>
-    <p>Choose a background style</p>
+    <h1>🎨 Background Studio</h1>
+    <p>Make your vibe aesthetic</p>
 
     <div class="buttons">
-        <button onclick="setColor('#1abc9c')">Mint</button>
-        <button onclick="setColor('#3498db')">Ocean</button>
-        <button onclick="setColor('#9b59b6')">Purple</button>
-        <button onclick="setGradient()">Gradient</button>
-        <button onclick="setImage()">Image</button>
+        <button onclick="setRandomGradient()">Random Gradient</button>
+        <button onclick="setImage()">Random Image</button>
+        <button onclick="startAuto()">Auto Mode</button>
+        <button onclick="stopAuto()">Stop</button>
+        <button onclick="toggleTheme()">🌙 Toggle Theme</button>
         <button onclick="resetBg()">Reset</button>
+    </div>
+
+    <div class="extras">
+        <input type="color" id="colorPicker" onchange="setCustomColor(this.value)">
+        <label class="upload">
+            Upload Image
+            <input type="file" accept="image/*" onchange="uploadImage(event)">
+        </label>
+        <button onclick="saveBg()">💾 Save</button>
     </div>
 </div>
 
