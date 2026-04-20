@@ -1,6 +1,14 @@
-let autoInterval;
+let autoInterval = null;
 
-// Random Gradient
+// Apply background helper (IMPORTANT FIX)
+function applyBackground(bg) {
+    document.body.style.background = bg;
+    document.body.style.backgroundSize = "cover";
+    document.body.style.backgroundPosition = "center";
+    document.body.style.backgroundRepeat = "no-repeat";
+}
+
+// Gradient
 function setRandomGradient() {
     const gradients = [
         ["#ff7e5f", "#feb47b"],
@@ -10,19 +18,19 @@ function setRandomGradient() {
         ["#56ab2f", "#a8e063"]
     ];
 
-    const random = gradients[Math.floor(Math.random() * gradients.length)];
-    document.body.style.background = `linear-gradient(135deg, ${random[0]}, ${random[1]})`;
+    const g = gradients[Math.floor(Math.random() * gradients.length)];
+    applyBackground(`linear-gradient(135deg, ${g[0]}, ${g[1]})`);
 }
 
-// Random Image
+// Image
 function setImage() {
-    const url = "https://picsum.photos/1600/900?random=" + new Date().getTime();
-    document.body.style.background = `url(${url}) center/cover no-repeat`;
+    const url = "https://picsum.photos/1600/900?random=" + Date.now();
+    applyBackground(`url(${url})`);
 }
 
-// Custom Color Picker
+// Custom Color
 function setCustomColor(color) {
-    document.body.style.background = color;
+    applyBackground(color);
 }
 
 // Upload Image
@@ -31,47 +39,41 @@ function uploadImage(event) {
     if (!file) return;
 
     const reader = new FileReader();
-
     reader.onload = function(e) {
-        document.body.style.background = `url(${e.target.result}) center/cover no-repeat`;
+        applyBackground(`url(${e.target.result})`);
     };
-
     reader.readAsDataURL(file);
 }
 
-// Save Background
+// Save
 function saveBg() {
     localStorage.setItem("bg", document.body.style.background);
-    alert("✅ Background saved!");
+    alert("Saved!");
 }
 
-// Load Saved Background
-window.onload = function() {
+// Load
+window.onload = function () {
     const saved = localStorage.getItem("bg");
-    if (saved) {
-        document.body.style.background = saved;
-    }
+    if (saved) applyBackground(saved);
 };
 
-// Reset Background
+// Reset
 function resetBg() {
-    document.body.style.background = "linear-gradient(135deg, #667eea, #764ba2)";
+    applyBackground("linear-gradient(135deg, #667eea, #764ba2)");
     localStorage.removeItem("bg");
 }
 
-// Auto Change Mode
+// Auto Mode
 function startAuto() {
-    stopAuto(); // prevent duplicates
-    autoInterval = setInterval(() => {
-        setRandomGradient();
-    }, 2500);
+    stopAuto();
+    autoInterval = setInterval(setRandomGradient, 2000);
 }
 
 function stopAuto() {
     clearInterval(autoInterval);
 }
 
-// Dark Mode Toggle
+// Theme
 function toggleTheme() {
     document.body.classList.toggle("dark");
 }
