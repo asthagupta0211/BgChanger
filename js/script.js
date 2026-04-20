@@ -1,4 +1,3 @@
-// Ensure everything loads properly
 document.addEventListener("DOMContentLoaded", () => {
 
     const canvas = document.getElementById("bgCanvas");
@@ -12,9 +11,8 @@ document.addEventListener("DOMContentLoaded", () => {
     resizeCanvas();
     window.addEventListener("resize", resizeCanvas);
 
+    // ⭐ Stars
     let stars = [];
-
-    // create stars
     for (let i = 0; i < 120; i++) {
         stars.push({
             x: Math.random() * canvas.width,
@@ -47,67 +45,87 @@ document.addEventListener("DOMContentLoaded", () => {
 
     animateStars();
 
-    // ===== FIX: Make functions global =====
+    // 🔥 HELPER (MAIN FIX)
+    function clearBackground() {
+        document.body.classList.remove("gradient-animate");
+        document.body.style.background = "";
+    }
 
     let autoInterval = null;
 
+    // 🎨 Gradient
     window.setRandomGradient = function () {
+        clearBackground();
         document.body.classList.add("gradient-animate");
-        document.body.style.background = ""; // remove inline override
     };
 
+    // 🎨 Color
     window.setCustomColor = function (color) {
-        document.body.classList.remove("gradient-animate");
+        clearBackground();
         document.body.style.background = color;
     };
 
+    // 🖼 Image
     window.setImage = function () {
-        document.body.classList.remove("gradient-animate");
+        clearBackground();
         const url = "https://picsum.photos/1600/900?random=" + Date.now();
         document.body.style.background = `url(${url}) center/cover no-repeat`;
     };
 
+    // 📤 Upload
     window.uploadImage = function (event) {
         const file = event.target.files[0];
         if (!file) return;
 
         const reader = new FileReader();
         reader.onload = function (e) {
-            document.body.classList.remove("gradient-animate");
+            clearBackground();
             document.body.style.background =
                 `url(${e.target.result}) center/cover no-repeat`;
         };
         reader.readAsDataURL(file);
     };
 
+    // 💾 Save
     window.saveBg = function () {
-        localStorage.setItem("bg", document.body.style.background);
-        alert("Background Saved!");
+        const currentBg = document.body.classList.contains("gradient-animate")
+            ? "gradient"
+            : document.body.style.background;
+
+        localStorage.setItem("bg", currentBg);
+        alert("Saved!");
     };
 
-    // load saved background safely
+    // 🔄 Load
     const saved = localStorage.getItem("bg");
     if (saved) {
-        document.body.style.background = saved;
+        if (saved === "gradient") {
+            document.body.classList.add("gradient-animate");
+        } else {
+            document.body.style.background = saved;
+        }
     }
 
+    // 🔁 Reset
     window.resetBg = function () {
-        document.body.classList.remove("gradient-animate");
+        clearBackground();
         document.body.style.background = "black";
         localStorage.removeItem("bg");
     };
 
+    // 🔄 Auto mode
     window.startAuto = function () {
         stopAuto();
         autoInterval = setInterval(() => {
             setRandomGradient();
-        }, 4000);
+        }, 3000);
     };
 
     window.stopAuto = function () {
         clearInterval(autoInterval);
     };
 
+    // 🌙 Theme
     window.toggleTheme = function () {
         document.body.classList.toggle("dark");
     };
